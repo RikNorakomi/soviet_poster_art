@@ -3,6 +3,8 @@ package norakomi.sovietposterart;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -10,7 +12,6 @@ import android.widget.ImageView;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.cache.plus.ImageLoader;
 import com.android.volley.error.VolleyError;
 import com.android.volley.request.JsonObjectRequest;
 
@@ -20,6 +21,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import norakomi.sovietposterart.Adapters.PosterAdapter;
 import norakomi.sovietposterart.helpers.App;
 import norakomi.sovietposterart.networking.VolleySingleton;
 import norakomi.sovietposterart.pojo.Poster;
@@ -34,20 +36,28 @@ import static norakomi.sovietposterart.helpers.Keys.PosterKeys.YEAR;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final String URL_SOVIET_ART = "http://sovietart.me";
+
     private RequestQueue mRequestQue;
     private ArrayList<Poster> listPosters = new ArrayList<>();
     private CardView mCardView;
     private ImageView mPosterView;
     private VolleySingleton mVolley;
+    private RecyclerView mRecyclerView;
+    private PosterAdapter mPosterAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_posters);
-//        mCardView = (CardView) findViewById(R.id.poster_cardview);
-        mPosterView = (ImageView) findViewById(R.id.poster_imageview)   ;
 
+        mRecyclerView = (RecyclerView) findViewById(R.id.poster_overview_recycler);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mPosterAdapter = new PosterAdapter(listPosters);
+        mRecyclerView.setAdapter(mPosterAdapter);
+
+
+
+        mPosterView = (ImageView) findViewById(R.id.poster_imageview);
         // JSON download request: see Lecture 36 Slidenerd
         mVolley = VolleySingleton.getInstance();
         mRequestQue = mVolley.getRequestQueue();
@@ -55,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         doJSONRequest(App.URL);
 
         // JSON PARSING: see lecture 37 Slidenerd
+
     }
 
     public void doJSONRequest(String url) {
@@ -66,21 +77,12 @@ public class MainActivity extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        parseJSONResponse(response);
-                        App.log(listPosters.get(0).getFilepath());
-                        ImageLoader imageLoader = mVolley.getImageLoader();
-                        String imageURL = URL_SOVIET_ART + listPosters.get(0).getFilepath();
-                        imageLoader.get(imageURL, new ImageLoader.ImageListener() {
-                            @Override
-                            public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-                                mPosterView.setImageDrawable(response.getBitmap());
-                            }
+                        // parse JSON response on pass returned poster object to recycler adapter
+                        ArrayList<Poster> posters = parseJSONResponse(response);
+                        App.log("number of posters after json request" + posters.size());
+                        mPosterAdapter.refreshPosters(posters);
 
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                App.toast("ERROR DOWNLOADING IMAGE");
-                            }
-                        });
+
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -92,9 +94,9 @@ public class MainActivity extends AppCompatActivity {
         mRequestQue.add(request);
     }
 
-    public void parseJSONResponse(JSONObject response) {
+    public ArrayList<Poster> parseJSONResponse(JSONObject response) {
         if (response == null || response.length() == 0) {
-            return;
+            return null;
         }
         try {
             StringBuilder data = new StringBuilder();
@@ -147,9 +149,12 @@ public class MainActivity extends AppCompatActivity {
 
             }
             App.toastLong(listPosters.toString());
+            return listPosters;
         } catch (JSONException e) {
             e.printStackTrace();
+
         }
+        return null;
     }
 
     @Override

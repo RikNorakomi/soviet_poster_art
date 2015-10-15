@@ -11,6 +11,7 @@ import android.widget.Toast;
 public class App extends Application {
     public static final String URL="http://www.norakomi.com/assets/json/soviet_art.json";
     private static App instance;
+    private static boolean DEBUG = true;
 
     @Override
     public void onCreate() {
@@ -34,6 +35,7 @@ public class App extends Application {
     }
 
     public static void log(String string){
-        Log.e("SovietArt", string);
+        // turn off debug to prevent writing log statements
+        if (DEBUG) Log.e("SovietArt", string);
     }
 }
