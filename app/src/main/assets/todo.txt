@@ -1,0 +1,6 @@
+*check inbouwen in html/json parser welke er voor zorgtr dat er geen
+"-karakters in de values komen te staan
+
+*check inbouwen of year string wel uit 4 cijfers bestaat
+
+* Fresco misschien beter dan picasso of volley
