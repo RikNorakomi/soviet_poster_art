@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -51,10 +52,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.fragment_posters);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.poster_overview_recycler);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL));
         mPosterAdapter = new PosterAdapter(listPosters);
         mRecyclerView.setAdapter(mPosterAdapter);
 
+        int width = getWindowManager().getDefaultDisplay().getWidth();
+        App.log("screenwidth = " + width);
+        App.log("screenheight = " + getWindowManager().getDefaultDisplay().getHeight());
 
 
         mPosterView = (ImageView) findViewById(R.id.poster_imageview);
@@ -148,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
                 // gebleven by lect 38 slidenerd
 
             }
-            App.toastLong(listPosters.toString());
+//            App.toastLong(listPosters.toString());
             return listPosters;
         } catch (JSONException e) {
             e.printStackTrace();

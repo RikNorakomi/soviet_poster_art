@@ -1,6 +1,7 @@
 package norakomi.sovietposterart.Adapters;
 
-import android.support.v7.widget.CardView;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -73,8 +74,33 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.PosterView
         mImageLoader.get(imageURL, new ImageLoader.ImageListener() {
             @Override
             public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-                App.log("trying to set image on poster");
-                holder.poster.setImageDrawable(response.getBitmap());
+                Drawable image = response.getBitmap();
+                if (image == null) {
+                    App.log("IMAGE IS NULL!!!!!");
+                } else {
+                    App.log("IMAGE IS NOT NULLLLLLL!!!!!");
+
+                    App.log("trying to set image on poster" + "   holder width=" + holder.poster.getWidth()
+                            + "  padding left on holder  = " + holder.poster.getPaddingLeft());
+
+                    BitmapDrawable b = response.getBitmap();
+                    App.log("intrinsic width" + b.getIntrinsicWidth());
+
+                    // calculate new height for holder
+                    int imageWidth = response.getBitmap().getIntrinsicWidth();
+                    int imageHeight = response.getBitmap().getIntrinsicHeight();
+                    int holderWidth = holder.poster.getWidth();
+                    float factor = (float) holderWidth / (float) imageWidth;
+                    float newHolderHeight = factor * (float) imageHeight;
+
+                    holder.poster.getLayoutParams().height = (int) newHolderHeight;
+                    holder.poster.requestLayout();
+                }
+
+//                App.log("get width ="+image.getBounds().width());
+//                holder.poster.getLayoutParams().height = 300;
+//                holder.poster.requestLayout();
+                holder.poster.setImageDrawable(image);
             }
 
             @Override
@@ -94,12 +120,10 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.PosterView
 
     static class PosterViewHolder extends RecyclerView.ViewHolder {
         ImageView poster;
-        CardView card;
 
 
         public PosterViewHolder(View itemView) {
             super(itemView);
-            card = (CardView) itemView.findViewById(R.id.poster_cardview);
             poster = (ImageView) itemView.findViewById(R.id.poster_imageview);
         }
     }
