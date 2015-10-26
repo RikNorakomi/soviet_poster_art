@@ -1,11 +1,13 @@
 package norakomi.sovietposterart;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -50,6 +52,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_posters);
+
+        Toolbar tb = (Toolbar) findViewById(R.id.toolbar);
+        // Get the ActionBar here to configure the way it behaves.
+        final ActionBar ab = getSupportActionBar();
+        //ab.setHomeAsUpIndicator(R.drawable.ic_menu); // set a custom icon for the default home button
+        ab.setDisplayShowHomeEnabled(true); // show or hide the default home button
+        ab.setDisplayHomeAsUpEnabled(true);
+        ab.setDisplayShowCustomEnabled(true); // enable overriding the default toolbar layout
+        ab.setDisplayShowTitleEnabled(false); // disable the default title element here (for centered title)
+
+
 
         mRecyclerView = (RecyclerView) findViewById(R.id.poster_overview_recycler);
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL));
