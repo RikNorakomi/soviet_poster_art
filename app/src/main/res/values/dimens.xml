@@ -2,4 +2,26 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="fab_size">56dp</dimen>
+    <dimen name="padding_normal">16dp</dimen>
+    <dimen name="spacing_micro">4dp</dimen>
+    <dimen name="divider_height">1px</dimen>
+
+    <dimen name="spacing_huge">64dp</dimen>
+    <dimen name="spacing_normal">8dp</dimen>
+
+    <!-- grid -->
+    <integer name="num_columns">2</integer>
+    <dimen name="grid_icon_with_padding">40dp</dimen> <!-- 24dp icon + 2 * @dimen/spacing_normal -->
+
+    <!-- drawer -->
+    <dimen name="drawer_width">@dimen/match_parent</dimen>
+
+    <!-- Z-axis elevations -->
+    <dimen name="z_drawer">16dp</dimen>
+    <dimen name="z_fab">6dp</dimen>
+    <dimen name="touch_raise">6dp</dimen>
+
+    <!-- per https://developer.android.com/reference/android/view/ViewGroup.LayoutParams.html#MATCH_PARENT -->
+    <item name="match_parent" format="integer" type="dimen">-1</item>
 </resources>

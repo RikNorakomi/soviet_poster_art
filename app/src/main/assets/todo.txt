@@ -4,3 +4,5 @@
 *check inbouwen of year string wel uit 4 cijfers bestaat
 
 * Fresco misschien beter dan picasso of volley
+
+* ad 24 dp icons to menu

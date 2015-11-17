@@ -3,7 +3,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:padding="2dp"
-              android:background="@color/accent"
+              android:background="@color/background_super_dark"
               android:orientation="vertical">
 
 
@@ -12,10 +12,7 @@
             android:id="@+id/poster_imageview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scaleType="fitCenter"
-            android:minHeight="50dp"
+            android:minHeight="150dp"
             android:background="@color/primary_dark"  />
-
-
 
 </LinearLayout>

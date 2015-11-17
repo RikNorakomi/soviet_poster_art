@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!-- Needs a concrete height/width as we animate the icon's scale so the asset
+         needs to be larger to stay crisp.  Thus can't wrap height. -->
+    <ImageButton
+        android:id="@+id/poster_image"
+        android:layout_width="@dimen/grid_icon_with_padding"
+        android:layout_height="@dimen/grid_icon_with_padding"
+        android:layout_gravity="bottom|start"
+        android:layout_margin="@dimen/spacing_micro"
+        android:background="@drawable/light_ripple"
+        android:padding="@dimen/spacing_normal"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_pocket"/>
+
+</FrameLayout>
+
+

@@ -1,9 +1,11 @@
-package norakomi.sovietposterart.pojo;
+package norakomi.sovietposterart.data.pojo;
+
+import norakomi.sovietposterart.Adapters.GridItem;
 
 /**
  * Created by MEDION on 8-10-2015.
  */
-public class Poster {
+public class Poster extends GridItem {
 
     private String title;
     private String author;
@@ -12,10 +14,9 @@ public class Poster {
     private String category;
     private String year;
 
-    public Poster() {
-    }
-
     public Poster(String title, String author, String filepath, String filename, String category, String year) {
+
+        super(100, title, filepath);
         this.title = title;
         this.author = author;
         this.filepath = filepath;

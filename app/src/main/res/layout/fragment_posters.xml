@@ -12,14 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.v7.widget.Toolbar
+        <Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:backgroundTint="@android:color/holo_green_light"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+            android:layout_height="?android:actionBarSize"
+            android:title="@string/app_name"
+            android:outlineProvider="none"
+            style="@style/HomeToolbar" />
 
     </android.support.design.widget.AppBarLayout>
 
@@ -27,6 +26,7 @@
         android:id="@+id/poster_overview_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:elevation="12dp"
      />
 
 
