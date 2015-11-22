@@ -3,7 +3,6 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:padding="2dp"
-              android:background="@color/background_super_dark"
               android:orientation="vertical">
 
 
@@ -13,6 +12,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="150dp"
-            android:background="@color/primary_dark"  />
+             />
 
 </LinearLayout>

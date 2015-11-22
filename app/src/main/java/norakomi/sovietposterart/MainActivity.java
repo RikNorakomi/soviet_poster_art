@@ -1,15 +1,17 @@
 package norakomi.sovietposterart;
 
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
-import android.widget.Toolbar;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -48,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
     private PosterAdapter mPosterAdapter;
     private DataManager dataManager;
 
+    private ActionBarDrawerToggle mDrawerToggle;
+    private DrawerLayout mDrawerLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,14 +60,10 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar tb = (Toolbar) findViewById(R.id.toolbar);
         // Get the ActionBar here to configure the way it behaves.
+        setSupportActionBar(tb);
         final ActionBar ab = getSupportActionBar();
-        //ab.setHomeAsUpIndicator(R.drawable.ic_menu); // set a custom icon for the default home button
-        if (ab != null) {
-            ab.setDisplayShowHomeEnabled(true); // show or hide the default home button
-            ab.setDisplayHomeAsUpEnabled(true);
-            ab.setDisplayShowCustomEnabled(true); // enable overriding the default toolbar layout
-            ab.setDisplayShowTitleEnabled(false); // disable the default title element here (for centered title)
-        }
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
 
         mRecyclerView = (RecyclerView) findViewById(R.id.poster_overview_recycler);
@@ -80,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         mVolley = VolleySingleton.getInstance();
         mRequestQue = mVolley.getRequestQueue();
 
-        doJSONRequest(App.JSON_SOVIET_ART_ME);
+        doJSONRequest(App.URL_JSON_SOVIET_ART_ME);
 
         // JSON PARSING: see lecture 37 Slidenerd
 
@@ -98,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                         // parse JSON response on pass returned poster object to recycler adapter
                         ArrayList<Poster> posters = parseJSONResponse(response);
                         App.log("number of posters after json request" + posters.size());
-                        mPosterAdapter.refreshPosters(posters);
+                        mPosterAdapter.refreshData(posters);
 
 
                     }

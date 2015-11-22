@@ -1,35 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    android:id="@+id/coordinatorLayout"
+<android.support.v4.widget.DrawerLayout
+    android:id="@+id/drawer"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    tools:context=".ui.HomeActivity">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appBarLayout"
-        android:backgroundTint="@android:color/holo_orange_dark"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <Toolbar
+
+        <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
+            style="@style/HomeToolbar"
             android:layout_width="match_parent"
             android:layout_height="?android:actionBarSize"
-            android:title="@string/app_name"
             android:outlineProvider="none"
-            style="@style/HomeToolbar" />
+            android:title="@string/app_name"/>
 
-    </android.support.design.widget.AppBarLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/poster_overview_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
 
+
+    </FrameLayout>
+
+    <!-- filter drawer -->
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/poster_overview_recycler"
-        android:layout_width="match_parent"
+        android:id="@+id/navDrawer"
+        android:layout_width="@dimen/drawer_width"
         android:layout_height="match_parent"
-        android:elevation="12dp"
-     />
+        android:layout_gravity="end"
+        android:background="@color/background_dark"
+        android:clipToPadding="false"
+        android:elevation="@dimen/z_drawer"
+        android:fitsSystemWindows="true"
+        android:paddingBottom="@dimen/spacing_normal"
+        android:paddingTop="@dimen/spacing_normal"
+        android:scrollbarStyle="outsideOverlay"
+        android:scrollbars="vertical"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager"/>
 
-
-</android.support.design.widget.CoordinatorLayout>
+</android.support.v4.widget.DrawerLayout>
 
 

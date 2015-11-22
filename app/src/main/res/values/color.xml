@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="primary">#c30101</color>
+    <color name="primaryTransparent">#430101</color>
     <color name="primary_dark">#940000</color>
     <color name="accent">#f59703</color>
     <!--<color name="primary_light">#f59703</color>-->
 
     <color name="immersive_bars">#99000000</color>
     <color name="status_bar_back">#ff676767</color> <!-- this is blended with immersive_bars to produce the desired status bar color i.e. background_super_dark -->
-    <color name="background_super_dark">#ff292929</color>
+    <color name="background_super_dark">#43292929</color>
 
     <color name="background_light">#fafafa</color>
     <color name="background_dark">#ff333333</color>
@@ -16,6 +17,7 @@
     <color name="text_secondary_dark">#8a000000</color>
     <color name="text_secondary_light">#b3ffffff</color> <!-- 70% -->
     <color name="divider">#1f000000</color> <!-- 12% black -->
+    <color name="primary_super_dark">#11261c</color> <!-- same hue & sat, 15% brightness -->
 
     <color name="ripple_light">#99ffffff</color>
     <color name="ripple_dark">@color/mid_grey</color>

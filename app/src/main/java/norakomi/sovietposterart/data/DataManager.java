@@ -59,7 +59,7 @@ public class DataManager extends BaseDataManager {
     }
 
     private void loadSovietPosterArtMeData() {
-        String url = App.JSON_SOVIET_ART_ME;
+        String url = App.URL_JSON_SOVIET_ART_ME;
         doJSONRequest(url);
 
     }

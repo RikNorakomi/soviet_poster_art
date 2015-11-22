@@ -1,12 +1,6 @@
-package norakomi.sovietposterart.data;
+package norakomi.sovietposterart.networking;
 
 import android.content.Context;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.error.VolleyError;
-import com.android.volley.request.JsonObjectRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,8 +11,6 @@ import java.util.List;
 
 import norakomi.sovietposterart.Adapters.GridItem;
 import norakomi.sovietposterart.data.pojo.Poster;
-import norakomi.sovietposterart.data.prefs.SovietArtMePrefs;
-import norakomi.sovietposterart.helpers.App;
 
 import static norakomi.sovietposterart.helpers.Keys.PosterKeys.AUTHOR;
 import static norakomi.sovietposterart.helpers.Keys.PosterKeys.CATEGORY;
@@ -29,52 +21,29 @@ import static norakomi.sovietposterart.helpers.Keys.PosterKeys.TITLE;
 import static norakomi.sovietposterart.helpers.Keys.PosterKeys.YEAR;
 
 /**
- * Created by MEDION on 16-11-2015.
+ * Created by MEDION on 22-11-2015.
  */
-public abstract class BaseDataManager {
+public abstract class BaseAPIManager {
 
-    private SovietArtMePrefs sovietArtMePrefs;
-    private RequestQueue requestQue;
-    private ArrayList<Poster> listPosters = new ArrayList<>();
 
-    public BaseDataManager(Context context) {
+    public BaseAPIManager(Context context) {
         // setup the API access objects
-        sovietArtMePrefs = SovietArtMePrefs.get(context);
-//        createSovietArtMeData();
+
+
+        // see later Plaid/Retrofit code on how to create API's
     }
 
     public abstract void onDataLoaded(List<? extends GridItem> data);
 
-    private void createSovietArtMeData() {
-        JsonObjectRequest request = new JsonObjectRequest(
-                Request.Method.GET,
-                App.URL_JSON_SOVIET_ART_ME,
-                null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        // parse JSON response on pass returned poster object to recycler adapter
-                        ArrayList<Poster> posters = parseJSONResponse(response);
-                        App.log("number of posters after json request" + posters.size());
-                        onDataLoaded(posters);
-
-
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                App.toast("ERROR!");
-            }
-        }
-        );
-        requestQue.add(request);
-    }
-
+    // todo abstract even further to parse return GridItem
     public ArrayList<Poster> parseJSONResponse(JSONObject response) {
         if (response == null || response.length() == 0) {
             return null;
         }
+
+        ArrayList<Poster> listPosters = new ArrayList<>();
         try {
+            StringBuilder data = new StringBuilder();
             JSONArray posterArray = response.getJSONArray(POSTERS);
             for (int i = 0; i < posterArray.length(); i++) {
                 JSONObject posterData = posterArray.getJSONObject(i);
@@ -91,10 +60,9 @@ public abstract class BaseDataManager {
                     title = "no title";
 
                 if (posterData.has(AUTHOR)) {
-                    {author = posterData.getString(AUTHOR);}
-                } else {
+                    author = posterData.getString(AUTHOR);
+                } else
                     author = "no author";
-                }
                 if (posterData.has(FILEPATH)) {
                     filepath = posterData.getString(FILEPATH);
                 } else
@@ -121,8 +89,10 @@ public abstract class BaseDataManager {
                         year);
                 listPosters.add(poster);
 
-            }
+                // gebleven by lect 38 slidenerd
 
+            }
+//            App.toastLong(listPosters.toString());
             return listPosters;
         } catch (JSONException e) {
             e.printStackTrace();

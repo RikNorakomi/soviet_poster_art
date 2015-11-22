@@ -9,7 +9,7 @@ import android.widget.Toast;
  * Created by MEDION on 11-10-2015.
  */
 public class App extends Application {
-    public static final String JSON_SOVIET_ART_ME ="http://www.norakomi.com/assets/json/soviet_art.json";
+    public static final String URL_JSON_SOVIET_ART_ME ="http://www.norakomi.com/assets/json/soviet_art.json";
     public static final String URL_SOVIET_ART = "http://sovietart.me";
     private static App instance;
     private static boolean DEBUG = true;
