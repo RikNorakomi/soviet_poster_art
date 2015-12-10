@@ -10,15 +10,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.util.HashMap;
 import java.util.List;
 
 import norakomi.sovietposterart.Adapters.GridItem;
 import norakomi.sovietposterart.Adapters.PosterAdapter;
-import norakomi.sovietposterart.helpers.App;
-import norakomi.sovietposterart.networking.APIManager;
+import norakomi.sovietposterart.data.prefs.SovietArtMePrefs;
+import norakomi.sovietposterart.networking.DataManager;
 
 /**
  * Created by MEDION on 22-11-2015.
@@ -26,35 +28,58 @@ import norakomi.sovietposterart.networking.APIManager;
 
 public class NavigationViewActivity extends AppCompatActivity {
 
+    // UI
     private DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
     private ActionBarDrawerToggle mActionBarDrawerToggle;
     private RecyclerView mRecyclerView;
+    private NavigationView mNavigationView;
+
+    // DATA
     private PosterAdapter mPosterAdapter;
+    private DataManager mDataManager;
+    private SovietArtMePrefs mPrefs;
+    private HashMap<String, Boolean> checkedCategories = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation_view);
+        mPrefs = SovietArtMePrefs.get(this);
 
-        setupToolbar();
+        setupToolbarAndDrawer();
 
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
 
-        mPosterAdapter = new PosterAdapter(null, this);
+        mPosterAdapter = new PosterAdapter(null, this, this);
         mRecyclerView = (RecyclerView) findViewById(R.id.poster_overview_recycler);
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL));
         mRecyclerView.setAdapter(mPosterAdapter);
 
-        new APIManager(this) {
+        mDataManager = new DataManager(this) {
             @Override
             public void onDataLoaded(List<? extends GridItem> data) {
-                mPosterAdapter.refreshData(data);
+                // add categories to navigation drawer
+                Menu menu = mNavigationView.getMenu();
+
+                for (String categoryName : mDataManager.getCategories()) {
+                    menu.add(categoryName);
+                    // check whether or not added menu item should be checked
+                    // non stored items are set to checked (true) by default
+                    boolean checked = mPrefs.isCategoryChecked(categoryName);
+                    menu.getItem(menu.size() - 1).setChecked(checked);
+                    checkedCategories.put(categoryName, checked);
+                }
+
+                // update adapter with loaded data
+                mPosterAdapter.refreshData(data, checkedCategories);
+
+//                checkEmptyState(); // see plaid HomeActivity line 289
             }
         };
     }
 
-    private void setupToolbar() {
+    private void setupToolbarAndDrawer() {
         mToolbar = (Toolbar) findViewById(R.id.toolbarMain);
         setSupportActionBar(mToolbar);
 
@@ -72,13 +97,17 @@ public class NavigationViewActivity extends AppCompatActivity {
         mDrawerLayout.setDrawerListener(mActionBarDrawerToggle);
         mActionBarDrawerToggle.syncState();
 
-        NavigationView view = (NavigationView) findViewById(R.id.navigation_view);
-        view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+        /* Set menu item on navigation view */
+        mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
+        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
-                App.toast("touched menuitem: " + menuItem.getTitle());
-                menuItem.setChecked(true);
-                mDrawerLayout.closeDrawers();
+                // when category/menu item gets toggled change it's checked state and refresh recycler adapter
+                menuItem.setChecked(!menuItem.isChecked());
+                mPrefs.setCategoryChecked(menuItem.toString(), menuItem.isChecked());
+                // update checked categories hashmap and pass it to the adapter
+                checkedCategories.put(menuItem.toString(), menuItem.isChecked());
+                mPosterAdapter.setCategories(checkedCategories);
                 return true;
             }
         });
@@ -93,5 +122,14 @@ public class NavigationViewActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 }

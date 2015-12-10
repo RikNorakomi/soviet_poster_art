@@ -10,26 +10,29 @@ import com.android.volley.request.JsonObjectRequest;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import norakomi.sovietposterart.data.pojo.Poster;
 import norakomi.sovietposterart.helpers.App;
 import norakomi.sovietposterart.helpers.DataLoadingSubject;
 
 /**
  * Created by MEDION on 22-11-2015.
  */
-public abstract class APIManager extends BaseAPIManager implements DataLoadingSubject {
+public abstract class DataManager extends BaseAPIManager implements DataLoadingSubject {
 
     private AtomicInteger loadingCount;
     private RequestQueue mRequestQue;
+    private ArrayList<String> mCategories = new ArrayList<>();
 
-    public APIManager(Context context) {
+    public DataManager(Context context) {
         super(context);
         loadingCount = new AtomicInteger(0);
         mRequestQue = VolleySingleton.getInstance().getRequestQueue();
-
         loadSovietArtMeData();
-
     }
 
     private void loadSovietArtMeData() {
@@ -40,7 +43,16 @@ public abstract class APIManager extends BaseAPIManager implements DataLoadingSu
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        onDataLoaded(parseJSONResponse(response));
+                        Set<String> categorySet = new TreeSet<>();
+                        ArrayList<Poster> posters = parseJSONResponse(response);
+                        for (Poster p: posters) {
+                            categorySet.add(p.getCategory());
+                        }
+
+                        // before sending poster objects through callback set the category list!
+                        mCategories.clear();
+                        mCategories.addAll(categorySet);
+                        onDataLoaded(posters);
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -53,14 +65,12 @@ public abstract class APIManager extends BaseAPIManager implements DataLoadingSu
 
     }
 
-//    @Override
-//    public void onDataLoaded(List<? extends GridItem> data) {
-//
-//    }
-
     @Override
     public boolean isDataLoading() {
         return loadingCount.get() > 0;
     }
 
+    public ArrayList<String> getCategories() {
+        return mCategories;
+    }
 }

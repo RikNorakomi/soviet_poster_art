@@ -1,7 +1,9 @@
 package norakomi.sovietposterart.Adapters;
 
 
-public abstract class GridItem {
+import java.io.Serializable;
+
+public abstract class GridItem implements Serializable {
 
     public final long id;
     public final String title;

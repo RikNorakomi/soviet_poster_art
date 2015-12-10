@@ -17,10 +17,18 @@
     <!-- drawer -->
     <dimen name="drawer_width">@dimen/match_parent</dimen>
 
+    <!-- Poster detail screen -->
+    <dimen name="poster_view_min_height_image">168dp</dimen> <!-- 3 * ?android:actionBarSize -->
+    <dimen name="poster_view_title_bar">80dp</dimen>
+    <dimen name="poster_view_title_bar_artist_height">36dp</dimen>
+    <dimen name="poster_view_title_bar_title_height">44dp</dimen>
+
+
     <!-- Z-axis elevations -->
     <dimen name="z_drawer">16dp</dimen>
     <dimen name="z_fab">6dp</dimen>
     <dimen name="touch_raise">6dp</dimen>
+
 
     <!-- per https://developer.android.com/reference/android/view/ViewGroup.LayoutParams.html#MATCH_PARENT -->
     <item name="match_parent" format="integer" type="dimen">-1</item>

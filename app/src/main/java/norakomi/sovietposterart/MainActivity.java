@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
         mRecyclerView = (RecyclerView) findViewById(R.id.poster_overview_recycler);
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL));
-        mPosterAdapter = new PosterAdapter(listPosters, this);
+        mPosterAdapter = new PosterAdapter(listPosters, this, this);
         mRecyclerView.setAdapter(mPosterAdapter);
 
         int width = getWindowManager().getDefaultDisplay().getWidth();

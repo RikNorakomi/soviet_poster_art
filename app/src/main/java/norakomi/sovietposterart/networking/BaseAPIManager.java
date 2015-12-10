@@ -25,7 +25,6 @@ import static norakomi.sovietposterart.helpers.Keys.PosterKeys.YEAR;
  */
 public abstract class BaseAPIManager {
 
-
     public BaseAPIManager(Context context) {
         // setup the API access objects
 

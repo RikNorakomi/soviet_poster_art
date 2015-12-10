@@ -1,39 +1,4 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <group
-        android:checkableBehavior="single"
-        >
-
-        <item
-            android:id="@+id/drawer_home"
-            android:checked="true"
-
-            android:icon="@null"
-            android:title="@string/home"/>
-
-        <!-- section with header-->
-        <item
-            android:id="@+id/section"
-            android:title="@string/section_title">
-            <menu>
-                <item
-                    android:id="@+id/drawer_favourite"
-                    android:icon="@null"
-                    android:title="@string/favourite"/>
-
-                <item
-                    android:id="@+id/drawer_downloaded"
-                    android:icon="@null"
-                    android:title="@string/downloaded"/>
-            </menu>
-        </item>
-
-
-        <item
-            android:id="@+id/drawer_settings"
-            android:icon="@null"
-            android:title="@string/settings"/>
-
-        <!-- todo: add 24dp icons to menu-->
+    <group android:checkableBehavior="all">
     </group>
 </menu>

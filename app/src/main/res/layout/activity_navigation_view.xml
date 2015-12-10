@@ -21,11 +21,11 @@
                 layout="@layout/toolbar_main"/>
 
             <android.support.v7.widget.RecyclerView
-                android:layout_below="@id/toolbarMain"
                 android:id="@+id/poster_overview_recycler"
-
                 android:layout_width="match_parent"
+
                 android:layout_height="match_parent"
+                android:layout_below="@id/toolbarMain"
                 />
         </RelativeLayout>
         <!-- your content layout -->
@@ -38,7 +38,11 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@color/primaryTransparent"
+        app:itemBackground="@color/primaryTransparent"
+        app:itemIconTint="@null"
+        app:itemTextColor="@color/state_list"
         app:menu="@menu/menu_drawer"
-        app:itemTextColor="@color/accent"/>
+        />
 </android.support.v4.widget.DrawerLayout>
-    <!--app:headerLayout="@layout/drawer_header"-->
+    <!--app:menu="@menu/menu_drawer"
+    app:headerLayout="@layout/drawer_header"-->

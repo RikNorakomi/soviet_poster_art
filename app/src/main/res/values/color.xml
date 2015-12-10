@@ -26,10 +26,15 @@
     <color name="dark_icon">#99000000</color> <!-- 60% black-->
 
 
-    <!-- designer news -->
+    <!-- poster view activity -->
+    <color name="background_poster_view">@color/mid_grey</color>
+
+
     <!-- spec colors -->
     <color name="designer_news">#03a9f4</color> <!--light blue 500 -->-->
     <color name="designer_news_dark">#039be5</color> <!-- light blue 600 -->
     <color name="designer_news_link_highlight">#b303a9f4</color>
+
+
 
 </resources>

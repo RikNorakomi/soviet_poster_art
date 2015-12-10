@@ -14,6 +14,8 @@ public class Poster extends GridItem {
     private String category;
     private String year;
 
+    public boolean hasFadedIn = false;
+
     public Poster(String title, String author, String filepath, String filename, String category, String year) {
 
         super(100, title, filepath);
